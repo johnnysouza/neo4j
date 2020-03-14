@@ -197,7 +197,6 @@ OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m)
 RETURN  m.title, p.name </code>
 
 - Exercise 6: Controlling results returned
-  - <code>  </code>
 
 - Exercise 6.1: Execute a query that returns duplicate records.
   - <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
