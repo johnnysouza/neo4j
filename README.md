@@ -229,3 +229,30 @@ ORDER BY r.rating DESC LIMIT 5 </code>
 WITH  a,  count(a) AS numMovies, collect(m.title) AS movies
 WHERE numMovies <= 3
 RETURN a.name, movies </code>
+
+Exercise 7: Working with Cypher data
+
+- Exercise 7.1: Collect and use lists.
+  - <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie),
+      (p:Person)-[:PRODUCED]->(m)
+WITH  m, collect(DISTINCT a.name) AS cast, collect(DISTINCT p.name) AS producers
+RETURN DISTINCT m.title, cast, producers
+ORDER BY size(cast) </code>
+
+- Exercise 7.2: Collect a list.
+   <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, collect(m) AS movies
+WHERE size(movies) > 5
+RETURN a.name, movies </code>
+
+- Exercise 7.3: Unwind a list.
+   <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, collect(m) AS movies
+WHERE size(movies) > 5
+WITH a, movies UNWIND movies AS movie
+RETURN a.name, movie.title </code>
+
+- Exercise 7.4: Perform a calculation with the date type.
+   <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WHERE a.name = 'Tom Hanks'
+RETURN m.title AS title, m.released AS released, date().year - m.released AS `released age`, m.released - a.born AS `Tom age` </code>
