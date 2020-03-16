@@ -256,3 +256,63 @@ RETURN a.name, movie.title </code>
    <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WHERE a.name = 'Tom Hanks'
 RETURN m.title AS title, m.released AS released, date().year - m.released AS `released age`, m.released - a.born AS `Tom age` </code>
+
+Exercise 8: Creating Nodes
+
+- Exercise 8.1: Create a Movie node.
+  <code> CREATE (:Movie {title: 'Forrest Gump'}) </code>
+
+- Exercise 8.2: Retrieve the newly-created node.
+  <code> MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN m </code>
+
+- Exercise 8.3: Create a Person node.
+  <code> CREATE (:Person {name: 'Robin Wright'}) </code>
+
+- Exercise 8.4: Retrieve the newly-created node.
+  <code> MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p </code>
+
+- Exercise 8.5: Add a label to a node.
+  <code>  </code>
+
+- Exercise 8.6: Retrieve the node using the new label.
+  <code>  </code>
+
+- Exercise 8.7: Add the Female label to selected nodes.
+  <code>  </code>
+
+- Exercise 8.8: Retrieve all Female nodes.
+  <code>  </code>
+
+- Exercise 8.9: Remove the Female label from the nodes that have this label.
+  <code>  </code>
+
+- Exercise 8.10: View the current schema of the graph.
+  <code>  </code>
+
+- Exercise 8.11: Add properties to a movie.
+  <code>  </code>
+
+- Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties.
+  <code>  </code>
+
+- Exercise 8.13: Add properties to the person, Robin Wright.
+  <code>  </code>
+
+- Exercise 8.14: Retrieve an updated Person node.
+  <code>  </code>
+
+- Exercise 8.15: Remove a property from a Movie node.
+  <code>  </code>
+
+- Exercise 8.16: Retrieve the node to confirm that the property has been removed.
+  <code>  </code>
+
+- Exercise 8.17: Remove a property from a Person node.
+  <code>  </code>
+
+- Exercise 8.18: Retrieve the node to confirm that the property has been removed.
+  <code>  </code>
