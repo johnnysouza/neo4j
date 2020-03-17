@@ -276,43 +276,66 @@ WHERE p.name = 'Robin Wright'
 RETURN p </code>
 
 - Exercise 8.5: Add a label to a node.
-  <code>  </code>
+  <code> MATCH (m:Movie)
+WHERE m.released < 2010
+SET m:OlderMovie </code>
 
 - Exercise 8.6: Retrieve the node using the new label.
-  <code>  </code>
+  <code> MATCH (m:OlderMovie)
+RETURN m.title, m.released </code>
 
 - Exercise 8.7: Add the Female label to selected nodes.
-  <code>  </code>
+  <code> MATCH (p:Person)
+WHERE p.name STARTS WITH 'Robin'
+SET p:Femal </code>
 
 - Exercise 8.8: Retrieve all Female nodes.
-  <code>  </code>
+  <code> MATCH (p:Female)
+RETURN p </code>
 
 - Exercise 8.9: Remove the Female label from the nodes that have this label.
-  <code>  </code>
+  <code> MATCH (p:Female)
+REMOVE p:Female </code>
 
 - Exercise 8.10: View the current schema of the graph.
-  <code>  </code>
+  <code> CALL db.schema </code>
 
 - Exercise 8.11: Add properties to a movie.
-  <code>  </code>
+  <code> MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET m:OlderMovie, m.released = 1994, m.tagline = 'Life is like a box of chocolates…​you never know what you’re gonna get', m.lengthInMinutes = 142 </code>
 
 - Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties.
-  <code>  </code>
+  <code> MATCH (m:OlderMovie)
+WHERE m.title = 'Forrest Gump'
+RETURN m </code>
 
 - Exercise 8.13: Add properties to the person, Robin Wright.
-  <code>  </code>
+  <code> MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+SET p.born = 1966, p.birthPlace = 'Dallas' </code>
 
 - Exercise 8.14: Retrieve an updated Person node.
-  <code>  </code>
+  <code> MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p </code>
 
 - Exercise 8.15: Remove a property from a Movie node.
-  <code>  </code>
+  <code> MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+REMOVE m.lengthInMinutes </code>
 
 - Exercise 8.16: Retrieve the node to confirm that the property has been removed.
-  <code>  </code>
+  <code> MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN m </code>
 
 - Exercise 8.17: Remove a property from a Person node.
-  <code>  </code>
+  <code> MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+REMOVE p.birthPlace </code>
 
 - Exercise 8.18: Retrieve the node to confirm that the property has been removed.
-  <code>  </code>
+  <code> MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p </code>
