@@ -406,3 +406,31 @@ REMOVE r.research </code>
   - <code> MATCH (p:Person)-[r:ACTED_IN]->(m:Movie)
 WHERE m.title = 'Forrest Gump'
 return p, r, m </code>
+
+Exercise 10: Deleting Nodes and Relationships
+
+- Exercise 10.1: Delete a relationship.
+  - <code> MATCH (:Person)-[r:HELPED]->(:Person)
+DELETE r </code>
+
+- Exercise 10.2: Confirm that the relationship has been deleted.
+  - <code>  </code>
+
+- Exercise 10.3: Retrieve a movie and all of its relationships.
+  - <code> MATCH (:Person)-[r:HELPED]-(:Person)
+RETURN r </code>
+
+- Exercise 10.4: Try deleting a node without detaching its relationships.
+  - <code> MATCH (p:Person)-[r]-(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p, r, m </code>
+
+- Exercise 10.5: Delete a Movie node, along with its relationships.
+  - <code> MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+DElETE m </code>
+
+- Exercise 10.6: Confirm that the Movie node has been deleted.
+  - <code> MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+DETACH DELETE m </code>
