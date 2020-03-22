@@ -240,88 +240,88 @@ RETURN DISTINCT m.title, cast, producers
 ORDER BY size(cast) </code>
 
 - Exercise 7.2: Collect a list.
-   <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+   - <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WITH  a, collect(m) AS movies
 WHERE size(movies) > 5
 RETURN a.name, movies </code>
 
 - Exercise 7.3: Unwind a list.
-   <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+   - <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WITH  a, collect(m) AS movies
 WHERE size(movies) > 5
 WITH a, movies UNWIND movies AS movie
 RETURN a.name, movie.title </code>
 
 - Exercise 7.4: Perform a calculation with the date type.
-   <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+   - <code> MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WHERE a.name = 'Tom Hanks'
 RETURN m.title AS title, m.released AS released, date().year - m.released AS `released age`, m.released - a.born AS `Tom age` </code>
 
 Exercise 8: Creating Nodes
 
 - Exercise 8.1: Create a Movie node.
-  <code> CREATE (:Movie {title: 'Forrest Gump'}) </code>
+  - <code> CREATE (:Movie {title: 'Forrest Gump'}) </code>
 
 - Exercise 8.2: Retrieve the newly-created node.
-  <code> MATCH (m:Movie)
+  - <code> MATCH (m:Movie)
 WHERE m.title = 'Forrest Gump'
 RETURN m </code>
 
 - Exercise 8.3: Create a Person node.
-  <code> CREATE (:Person {name: 'Robin Wright'}) </code>
+  - <code> CREATE (:Person {name: 'Robin Wright'}) </code>
 
 - Exercise 8.4: Retrieve the newly-created node.
-  <code> MATCH (p:Person)
+  - <code> MATCH (p:Person)
 WHERE p.name = 'Robin Wright'
 RETURN p </code>
 
 - Exercise 8.5: Add a label to a node.
-  <code> MATCH (m:Movie)
+  - <code> MATCH (m:Movie)
 WHERE m.released < 2010
 SET m:OlderMovie </code>
 
 - Exercise 8.6: Retrieve the node using the new label.
-  <code> MATCH (m:OlderMovie)
+  - <code> MATCH (m:OlderMovie)
 RETURN m.title, m.released </code>
 
 - Exercise 8.7: Add the Female label to selected nodes.
-  <code> MATCH (p:Person)
+  - <code> MATCH (p:Person)
 WHERE p.name STARTS WITH 'Robin'
 SET p:Femal </code>
 
 - Exercise 8.8: Retrieve all Female nodes.
-  <code> MATCH (p:Female)
+  - <code> MATCH (p:Female)
 RETURN p </code>
 
 - Exercise 8.9: Remove the Female label from the nodes that have this label.
-  <code> MATCH (p:Female)
+  - <code> MATCH (p:Female)
 REMOVE p:Female </code>
 
 - Exercise 8.10: View the current schema of the graph.
-  <code> CALL db.schema </code>
+  - <code> CALL db.schema </code>
 
 - Exercise 8.11: Add properties to a movie.
-  <code> MATCH (m:Movie)
+  - <code> MATCH (m:Movie)
 WHERE m.title = 'Forrest Gump'
 SET m:OlderMovie, m.released = 1994, m.tagline = 'Life is like a box of chocolates…​you never know what you’re gonna get', m.lengthInMinutes = 142 </code>
 
 - Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties.
-  <code> MATCH (m:OlderMovie)
+  - <code> MATCH (m:OlderMovie)
 WHERE m.title = 'Forrest Gump'
 RETURN m </code>
 
 - Exercise 8.13: Add properties to the person, Robin Wright.
-  <code> MATCH (p:Person)
+  - <code> MATCH (p:Person)
 WHERE p.name = 'Robin Wright'
 SET p.born = 1966, p.birthPlace = 'Dallas' </code>
 
 - Exercise 8.14: Retrieve an updated Person node.
-  <code> MATCH (p:Person)
+  - <code> MATCH (p:Person)
 WHERE p.name = 'Robin Wright'
 RETURN p </code>
 
 - Exercise 8.15: Remove a property from a Movie node.
-  <code> MATCH (m:Movie)
+  - <code> MATCH (m:Movie)
 WHERE m.title = 'Forrest Gump'
 REMOVE m.lengthInMinutes </code>
 
@@ -331,11 +331,78 @@ WHERE m.title = 'Forrest Gump'
 RETURN m </code>
 
 - Exercise 8.17: Remove a property from a Person node.
-  <code> MATCH (p:Person)
+  - <code> MATCH (p:Person)
 WHERE p.name = 'Robin Wright'
 REMOVE p.birthPlace </code>
 
 - Exercise 8.18: Retrieve the node to confirm that the property has been removed.
-  <code> MATCH (p:Person)
+  - <code> MATCH (p:Person)
 WHERE p.name = 'Robin Wright'
 RETURN p </code>
+
+Exercise 9: Creating Relationships
+
+- Exercise 9.1: Create ACTED_IN relationships.
+  - <code> MATCH (a:Person), (m:Movie)
+WHERE a.name IN ['Robin Wright', 'Tom Hanks', 'Gary Sinise'] AND m.title = 'Forrest Gump'
+CREATE (a)-[:ACTED_IN]->(m) </code>
+
+- Exercise 9.2: Create DIRECTED relationships.
+  - <code> MATCH (d:Person), (m:Movie)
+WHERE d.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump'
+CREATE (d)-[:DIRECTED]->(m) </code>
+
+- Exercise 9.3: Create a HELPED relationship.
+  - <code> MATCH (p1:Person), (p2:Person)
+WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+CREATE (p1)-[:HELPED]->(p2) </code>
+
+- Exercise 9.4: Query nodes and new relationships.
+  - <code> MATCH (p:Person)-[r]->(m:Movie)
+WHERE m.title =  'Forrest Gump'
+RETURN p, r, m </code>
+
+- Exercise 9.5: Add properties to relationships.
+  - <code> MATCH (a:Person)-[r:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET r.roles =
+CASE a.name
+  WHEN 'Tom Hanks' THEN ['Forrest Gump']
+  WHEN 'Robin Wright' THEN ['Jenny Curran']
+  WHEN 'Gary Sinise' THEN ['Lieutenant Dan Taylor']
+END </code>
+
+- Exercise 9.6: Add a property to the HELPED relationship.
+  - <code> MATCH (p1:Person)-[r:HELPED]->(p2:Person)
+WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+SET r.research = 'war history' </code>
+
+- Exercise 9.7: View the current list of property keys in the graph.
+  - <code> call db.propertyKeys </code>
+
+- Exercise 9.8: View the current schema of the graph.
+  - <code> call db.schema </code>
+
+- Exercise 9.9: Retrieve the names and roles for actors.
+  - <code> MATCH (a:Person)-[r:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN a.name, r.roles </code>
+
+- Exercise 9.10: Retrieve information about any specific relationships.
+  - <code> MATCH (p1:Person)-[r:HELPED]-(p2:Person)
+RETURN p1.name, r, p2.name </code>
+
+- Exercise 9.11: Modify a property of a relationship.
+  - <code> MATCH (a:Person)-[r:ACTED_IN]->(m:Movie)
+WHERE a.name = 'Gary Sinise' AND m.title = 'Forrest Gump' 
+SET r.roles = ['Lt. Dan Taylor.'] </code>
+
+- Exercise 9.12: Remove a property from a relationship.
+  - <code> MATCH (p1:Person)-[r:HELPED]->(p2:Person)
+WHERE p1.name = 'Tom Hanks' and p2.name = 'Gary Sinise' 
+REMOVE r.research </code>
+
+- Exercise 9.13: Confirm that your modifications were made to the graph.
+  - <code> MATCH (p:Person)-[r:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+return p, r, m </code>
